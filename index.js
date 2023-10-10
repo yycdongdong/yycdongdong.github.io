@@ -159,7 +159,7 @@ const Barrage = class {
                 console.log(msg)
                 result = Object.assign(result, {
                     // repeatCount: parseInt(),
-                    msg_content: msg.common.describe+"*"+msg.common.total_count,
+                    msg_content: msg.common.describe,
                     isGift: true,
                     gift_id: msg.gift.id,
                     gift_name: msg.gift.name,
