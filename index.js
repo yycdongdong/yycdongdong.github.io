@@ -198,6 +198,12 @@ const Barrage = class {
                             //msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
                         })
                         break
+                    case "social_recommend":
+                        result = Object.assign(result,{
+                            method: "WebcastRoomMessage",
+                            msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
+                        })
+                        break
                 }
                 break
             case "WebcastMemberMessage":
