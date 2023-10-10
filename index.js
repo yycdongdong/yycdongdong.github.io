@@ -190,10 +190,15 @@ const Barrage = class {
                 break
             case "WebcastRoomMessage":
                 console.log("WebcastRoomMessage",msg)
-                result = Object.assign(result,{
-                    method: "WebcastRoomMessage",
-                    msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
-                })
+                switch(msg.biz_scene){
+                    case "level_up_msg":
+                        result = Object.assign(result,{
+                            method: "WebcastRoomMessage",
+                            msg_content:"恭喜"+msg.common.display_text.pieces[0].user.nickname+"刚刚升级至Lv."+msg.buried_point.level
+                            //msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
+                        })
+                        break
+                }
                 break
             case "WebcastMemberMessage":
                 console.log("WebcastMemberMessage",dom[this.propsId])
@@ -216,6 +221,12 @@ const Barrage = class {
                     msg_content:msg.content
                 })
                 break
+            case "WebcastRoomStatsMessage":
+                console.log("WebcastRoomStatsMessage",msg)
+                result=Object.assign(result,{
+                    method:"WebcastRoomStatsMessage",
+                    msg_content:msg
+                })
             default:
                 console.log('default',msg)
                 result = Object.assign(result, {
