@@ -205,11 +205,10 @@ const Barrage = class {
                         break
                     default:
                         result = Object.assign(result,{
-                            method: "WebcastRoomMessage",
+                            method: "WebcastRoomMessage-default",
                             msg_content:msg.content
                         })
                         break
-
                 }
                 break
             case "WebcastMemberMessage":
