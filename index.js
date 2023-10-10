@@ -219,6 +219,7 @@ const Barrage = class {
                             method:"WebcastLikeMessage-room_like_common_text",
                             msg_content:`${msg.user.nickname}为主播点赞了,当前本场点赞数:${msg.total}`
                         })
+                        break
                 }
                 break
             case "WebcastFansclubMessage":
