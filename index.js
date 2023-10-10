@@ -192,7 +192,7 @@ const Barrage = class {
                 console.log("WebcastRoomMessage",msg)
                 result = Object.assign(result,{
                     method: "WebcastRoomMessage",
-                    msg_content:msg.content
+                    msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
                 })
                 break
             case "WebcastMemberMessage":
