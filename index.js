@@ -204,7 +204,7 @@ const Barrage = class {
             case "WebcastLikeMessage":
                 console.log("WebcastLikeMessage",msg)
                 result=Object.assign(result,{
-                
+                    msg_content:`当前本场点赞数: ${msg.total}`
                 })
             case "WebcastFansclubMessage":
                 console.log("WebcastFansclubMessage",msg)
