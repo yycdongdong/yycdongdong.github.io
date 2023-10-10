@@ -1,5 +1,6 @@
+let bar;
 window.onDouyinServer = function() {
-    new Barrage()
+    bar=new Barrage()
 }
 console.clear()
 console.log(`[${new Date().toLocaleTimeString()}]`, '正在载入JS,请稍后..')

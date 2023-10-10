@@ -26,7 +26,6 @@ const Barrage = class {
             document.querySelector('.basicPlayer').remove()
         }
         this.propsId = Object.keys(document.querySelector('.webcast-chatroom___list'))[1]
-        console.log(" this.chatDom this.propsId",this.propsId)
         this.chatDom = document.querySelector('.webcast-chatroom___items').children[0]
         this.roomJoinDom = document.querySelector('.webcast-chatroom___bottom-message')
         this.ws = new WebSocket(this.wsurl)
@@ -73,14 +72,14 @@ const Barrage = class {
                     if (mutation.type === 'childList' && mutation.addedNodes.length) {
                         let dom = mutation.addedNodes[0]
                         let user = dom[this.propsId].children.props.message.payload.user
-                        let msg = {
+                        let userinfo = {
                             ...this.getUser(user),
                             ... { msg_content: `${user.nickname} 来了` }
                         }
                         if (this.eventRegirst.join) {
-                            this.event['join'](msg)
+                            this.event['join'](userinfo)
                         }
-                        this.ws.send(JSON.stringify({ action: 'join', message: msg }));
+                        this.ws.send(JSON.stringify({ action: 'join', message:userinfo}));
                     }
                 }
             });
@@ -90,11 +89,9 @@ const Barrage = class {
 
         this.chatObserverrom = new MutationObserver((mutationsList, observer) => {
             for (let mutation of mutationsList) {
+                console.log("mutation: ",mutation)
                 if (mutation.type === 'childList' && mutation.addedNodes.length) {
                     let b = mutation.addedNodes[0]
-                    console.log("dom",b)
-                    console.log("this.propsId",this.propsId)
-                    console.log("b[this.propsId]",b[this.propsId])
                     if (b[this.propsId].children.props.message) {
                         let message = this.messageParse(b)
                         if (message) {
@@ -123,9 +120,9 @@ const Barrage = class {
             user_nickName: user.nickname,
             user_avatar: user.avatar_thumb.url_list[0],
             user_gender: user.gender === 1 ? '男' : '女',
-            user_isAdmin: "",//user.user_attr.is_admin,
-            user_fansLightName: "",
-            user_levelImage: ""
+            user_isAdmin: user.user_attr.is_admin,//,
+            //user_fansLightName: "",
+            //user_levelImage: ""
         }
         return msg
     }
@@ -134,12 +131,19 @@ const Barrage = class {
             return 0
         }
         let item = arr.find(i => {
-            return i.imageType === type
+            return i.image_type === type
         })
         if (item) {
-            return parseInt(item.content.level)
-        } else {
-            return 0
+            return {
+                "alternative_text":item.content.alternative_text,
+                "level":parseInt(item.content.level)
+            }
+        } 
+        else {
+            return {
+                "alternative_text":"",
+                "level":0
+            }
         }
     }
     messageParse(dom) {
@@ -162,15 +166,12 @@ const Barrage = class {
             case 'WebcastGiftMessage':
                 console.log("WebcastGiftMessage",msg)
                 result = Object.assign(result, {
-                    // repeatCount: parseInt(),
-                    msg_content: msg.common.describe,
+                    msg_content: msg.gift.describe+"*"+msg.repeatCount,
                     isGift: true,
                     gift_id: msg.gift.id,
                     gift_name: msg.gift.name,
-                    // gift_number: parseInt(msg.comboCount),
                     gift_number: parseInt(msg.repeatCount),
                     gift_image: msg.gift.icon.url_list[0],
-                    gift_diamondCount: msg.gift.diamond_count,
                     gift_describe: msg.gift.describe,
                 })
                 break
