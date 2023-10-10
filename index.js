@@ -209,7 +209,7 @@ const Barrage = class {
                 console.log("WebcastMemberMessage",dom[this.propsId])
                 result=Object.assign(result,{
                     method:"WebcastMemberMessage",
-                    msg_content:`${msg.user.nickname}来了,欢迎!  当前本场观众数:${msg.member_count}`
+                    msg_content:`${msg.user.nickname}来了,欢迎! 当前本场观众数:${msg.member_count}`
                 })
                 break
             case "WebcastLikeMessage":
