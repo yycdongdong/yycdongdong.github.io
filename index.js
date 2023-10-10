@@ -194,13 +194,13 @@ const Barrage = class {
                     case "level_up_msg":
                         result = Object.assign(result,{
                             method: "WebcastRoomMessage-level_up_msg",
-                            msg_content:"恭喜"+msg.common.display_text.pieces[0].user.nickname+"刚刚升级至Lv."+msg.buried_point.level
+                            msg_content:"恭喜"+msg.common.display_text.pieces[0].user_value.user.nickname+"刚刚升级至Lv."+msg.buried_point.level
                         })
                         break
                     case "social_recommend":
                         result = Object.assign(result,{
                             method: "WebcastRoomMessage-social_recommend",
-                            msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
+                            msg_content:msg.common.display_text.pieces[0].user_value.user.nickname+"推荐直播给Ta的朋友"
                         })
                         break
                     default:
@@ -241,6 +241,18 @@ const Barrage = class {
                     method:"WebcastRoomStatsMessage",
                     msg_content:msg
                 })
+                break
+            case "WebcastExhibitionChatMessage":
+                switch(msg.common.display_text.key){
+                    case "exhibition_naming_chat_message_v2":
+                        console.log("WebcastExhibitionChatMessage",msg)
+                        result=Object.assign(result,{
+                            method:"WebcastExhibitionChatMessage-exhibition_naming_chat_message_v2",
+                            msg_content:msg.common.display_text.pieces[0].user_value.user.nickname+"成功冠名了"+`榜${msg.biz_type}`
+                        })
+                        break
+                }
+                break
             default:
                 console.log('default',msg)
                 result = Object.assign(result, {
