@@ -168,8 +168,6 @@ const Barrage = class {
         if(msg.user){
             result = Object.assign(result, this.getUser(msg.user))
         }
-        if(msg.common.display_text.pieces[0].user_value.user.nickname)
-        {const nickname=msg.common.display_text.pieces[0].user_value.user.nickname}
         switch (msg.common.method) {
             case 'WebcastGiftMessage':
                 console.log("WebcastGiftMessage",dom[this.propsId])
@@ -196,13 +194,13 @@ const Barrage = class {
                     case "level_up_msg":
                         result = Object.assign(result,{
                             method: "WebcastRoomMessage-level_up_msg",
-                            msg_content:"恭喜"+nickname+"刚刚升级至Lv."+msg.buried_point.level
+                            msg_content:"恭喜"+msg.common.display_text.pieces[0].user_value.user.nickname+"刚刚升级至Lv."+msg.buried_point.level
                         })
                         break
                     case "social_recommend":
                         result = Object.assign(result,{
                             method: "WebcastRoomMessage-social_recommend",
-                            msg_content:nickname+"推荐直播给Ta的朋友"
+                            msg_content:msg.common.display_text.pieces[0].user_value.user.nickname+"推荐直播给Ta的朋友"
                         })
                         break
                     default:
@@ -250,7 +248,7 @@ const Barrage = class {
                         console.log("WebcastExhibitionChatMessage",msg)
                         result=Object.assign(result,{
                             method:"WebcastExhibitionChatMessage-exhibition_naming_chat_message_v2",
-                            msg_content:nickname+"成功冠名了"+`榜${msg.biz_type}`
+                            msg_content:msg.common.display_text.pieces[0].user_value.user.nickname+"成功冠名了"+`榜${msg.biz_type}`
                         })
                         break
                 }
