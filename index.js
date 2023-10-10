@@ -119,7 +119,7 @@ const Barrage = class {
             user_nickName: user.nickname,
             //user_avatar: user.avatarThumb.urlList[0],
             user_gender: user.gender === 1 ? '男' : '女',
-            user_isAdmin: user.userAttr.isAdmin,
+            //user_isAdmin: user.userAttr.isAdmin,
             user_fansLightName: "",
             user_levelImage: ""
         }
