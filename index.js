@@ -205,6 +205,7 @@ const Barrage = class {
             case "WebcastLikeMessage":
                 console.log("WebcastLikeMessage",msg)
                 result=Object.assign(result,{
+                    method:"WebcastLikeMessage",
                     msg_content:`当前本场点赞数: ${msg.total}`
                 })
                 break
