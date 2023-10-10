@@ -217,7 +217,7 @@ const Barrage = class {
                     case "room_like_common_text":
                         result=Object.assign(result,{
                             method:"WebcastLikeMessage-room_like_common_text",
-                            msg_content:`${msg.common.display_text.pieces[0].user.nickname}为主播点赞了`
+                            msg_content:`${msg.user.nickname}为主播点赞了,当前本场点赞数:${msg.total}`
                         })
                 }
                 break
