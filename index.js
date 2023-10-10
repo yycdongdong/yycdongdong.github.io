@@ -193,14 +193,13 @@ const Barrage = class {
                 switch(msg.biz_scene){
                     case "level_up_msg":
                         result = Object.assign(result,{
-                            method: "WebcastRoomMessage",
+                            method: "WebcastRoomMessage-level_up_msg",
                             msg_content:"恭喜"+msg.common.display_text.pieces[0].user.nickname+"刚刚升级至Lv."+msg.buried_point.level
-                            //msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
                         })
                         break
                     case "social_recommend":
                         result = Object.assign(result,{
-                            method: "WebcastRoomMessage",
+                            method: "WebcastRoomMessage-social_recommend",
                             msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
                         })
                         break
