@@ -6,12 +6,12 @@
 const Barrage = class {
     wsurl = "ws://127.0.0.1:9527"
     timer = null
-    timeinterval = 10 * 1000 // 断线重连轮询间隔
+    timeinterval = 3 * 1000 // 断线重连轮询间隔
     propsId = null
     chatDom = null
     roomJoinDom = null
     ws = null
-    observer = null
+    tipObserverrom = null
     chatObserverrom = null
     option = {}
     event = {}
@@ -50,7 +50,7 @@ const Barrage = class {
         if (this.timer !== null) {
             return
         }
-        this.observer && this.observer.disconnect();
+        this.tipObserverrom && this.tipObserverrom.disconnect();
         this.chatObserverrom && this.chatObserverrom.disconnect();
         this.timer = setInterval(() => {
             console.log('正在等待服务器启动..')
@@ -66,48 +66,53 @@ const Barrage = class {
     }
     runServer() {
         let _this = this
-        if (this.option.join) {
-            this.observer = new MutationObserver((mutationsList) => {
+        if (!this.option.tipObserver) {
+            this.tipObserverrom = new MutationObserver((mutationsList) => {
                 for (let mutation of mutationsList) {
                     if (mutation.type === 'childList' && mutation.addedNodes.length) {
                         let dom = mutation.addedNodes[0]
-                        let user = dom[this.propsId].children.props.message.payload.user
-                        let userinfo = {
-                            ...this.getUser(user),
-                            ... { msg_content: `${user.nickname} 来了` }
+                       //#region
+                       // let user = dom[this.propsId].children.props.message.payload.user
+                       // let userinfo = {
+                       //     ...this.getUser(user),
+                       //     ... { msg_content: `${user.nickname} 来了` }
+                       // }
+                       //#endregion
+                       let message = this.messageParse(dom)
+                       if (message) {
+                            this.ws.send(JSON.stringify({ method: 'message', message:message}));
+                       }
+                       else{
+                        this.ws.send(JSON.stringify({ method: 'message', message: null })); 
                         }
-                        if (this.eventRegirst.join) {
-                            this.event['join'](userinfo)
-                        }
-                        this.ws.send(JSON.stringify({ action: 'join', message:userinfo}));
                     }
                 }
             });
-            this.observer.observe(this.roomJoinDom, { childList: true });
-
+            this.tipObserverrom.observe(this.roomJoinDom, { childList: true });
         }
-
-        this.chatObserverrom = new MutationObserver((mutationsList, observer) => {
-            for (let mutation of mutationsList) {
-                console.log("mutation: ",mutation)
-                if (mutation.type === 'childList' && mutation.addedNodes.length) {
-                    let b = mutation.addedNodes[0]
-                    if (b[this.propsId].children.props.message) {
-                        let message = this.messageParse(b)
-                        if (message) {
-                            if (this.eventRegirst.message) {
-                                this.event['join'](message)
+        
+        if (!_this.option.chatObserver) {
+            this.chatObserverrom = new MutationObserver((mutationsList, observer) => {
+                for (let mutation of mutationsList) {
+                    console.log("mutation: ",mutation)
+                    if (mutation.type === 'childList' && mutation.addedNodes.length) {
+                        let dom = mutation.addedNodes[0]
+                        if (dom[this.propsId].children.props.message) {
+                            let message = this.messageParse(dom)
+                            if (message) {
+                                this.ws.send(JSON.stringify({ method: 'message', message: message }));
                             }
-                            if (_this.option.message === false && !message.isGift) {
-                                return
+                            else{
+                                this.ws.send(JSON.stringify({ method: 'message', message: null })); 
                             }
-                            this.ws.send(JSON.stringify({ action: 'message', message: message }));
                         }
+                        
                     }
                 }
-            }
-        });
-        this.chatObserverrom.observe(this.chatDom, { childList: true });
+            });
+            this.chatObserverrom.observe(this.chatDom, { childList: true });
+        }
+
     }
     getUser(user) {
         if (!user) {
@@ -160,14 +165,15 @@ const Barrage = class {
             gift_diamondCount: null,
             gift_describe: null,
         }
-
-        result = Object.assign(result, this.getUser(msg.user))
+        if(msg.user){
+            result = Object.assign(result, this.getUser(msg.user))
+        }
         switch (msg.common.method) {
             case 'WebcastGiftMessage':
-                console.log("WebcastGiftMessage",msg)
+                console.log("WebcastGiftMessage",dom[this.propsId])
                 result = Object.assign(result, {
-                    msg_content: msg.gift.describe+"*"+msg.repeat_count,
-                    isGift: true,
+                    method:"WebcastGiftMessage",
+                    msg_content:msg.user.nickname+": "+ msg.gift.describe+"*"+msg.repeat_count,
                     gift_id: msg.gift.id,
                     gift_name: msg.gift.name,
                     gift_number: parseInt(msg.repeat_count),
@@ -176,12 +182,36 @@ const Barrage = class {
                 })
                 break
             case 'WebcastChatMessage':
-                console.log('WebcastChatMessage',msg)
+                console.log('WebcastChatMessage',dom[this.propsId])
                 result = Object.assign(result, {
-                    isGift: false,
-                    msg_content: msg.content
+                    method:"WebcastChatMessage",
+                    msg_content: msg.user.nickname+": "+msg.content
                 })
                 break
+            case "WebcastRoomMessage":
+                console.log("WebcastRoomMessage",msg)
+                result = Object.assign(result,{
+                    method: "WebcastRoomMessage",
+                    msg_content:msg.content
+                })
+                break
+            case "WebcastMemberMessage":
+                console.log("WebcastMemberMessage",dom[this.propsId])
+                result=Object.assign(result,{
+                    method:"WebcastMemberMessage",
+                    msg_content:`${msg.user.nickname}来了,欢迎!`
+                })
+            case "WebcastLikeMessage":
+                console.log("WebcastLikeMessage",msg)
+                result=Object.assign(result,{
+                
+                })
+            case "WebcastFansclubMessage":
+                console.log("WebcastFansclubMessage",msg)
+                result=Object.assign(result,{
+                    method:"WebcastFansclubMessage",
+                    msg_content:msg.content
+                })
             default:
                 console.log('default',msg)
                 result = Object.assign(result, {
