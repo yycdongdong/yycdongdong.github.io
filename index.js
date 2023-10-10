@@ -203,6 +203,13 @@ const Barrage = class {
                             msg_content:msg.common.display_text.pieces[0].user.nickname+"推荐直播给Ta的朋友"
                         })
                         break
+                    default:
+                        result = Object.assign(result,{
+                            method: "WebcastRoomMessage",
+                            msg_content:msg.content
+                        })
+                        break
+
                 }
                 break
             case "WebcastMemberMessage":
