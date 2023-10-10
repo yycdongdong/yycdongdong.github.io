@@ -91,7 +91,7 @@ const Barrage = class {
             for (let mutation of mutationsList) {
                 if (mutation.type === 'childList' && mutation.addedNodes.length) {
                     let b = mutation.addedNodes[0]
-                    console.log("dom",dom)
+                    console.log("dom",b)
                     if (b[this.propsId].children.props.message) {
                         let message = this.messageParse(b)
                         if (message) {
