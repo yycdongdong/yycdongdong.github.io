@@ -113,13 +113,13 @@ const Barrage = class {
             return
         }
         let msg = {
-            user_level: this.getLevel(user.badgeImageList, 1),
-            user_fansLevel: this.getLevel(user.badgeImageList, 7),
+            user_level: this.getLevel(user.badge_image_list, 1),
+            user_fansLevel: this.getLevel(user.badge_image_list, 7),
             user_id: user.id,
             user_nickName: user.nickname,
-            //user_avatar: user.avatarThumb.urlList[0],
+            user_avatar: user.avatar_thumb.url_list[0],
             user_gender: user.gender === 1 ? '男' : '女',
-            //user_isAdmin: user.userAttr.isAdmin,
+            user_isAdmin: user.user_attr.is_admin,
             user_fansLightName: "",
             user_levelImage: ""
         }
@@ -165,8 +165,8 @@ const Barrage = class {
                     gift_name: msg.gift.name,
                     // gift_number: parseInt(msg.comboCount),
                     gift_number: parseInt(msg.repeatCount),
-                    gift_image: msg.gift.icon.urlListList[0],
-                    gift_diamondCount: msg.gift.diamondCount,
+                    gift_image: msg.gift.icon.url_list[0],
+                    gift_diamondCount: msg.gift.diamond_count,
                     gift_describe: msg.gift.describe,
                 })
                 break
