@@ -201,17 +201,20 @@ const Barrage = class {
                     method:"WebcastMemberMessage",
                     msg_content:`${msg.user.nickname}来了,欢迎!`
                 })
+                break
             case "WebcastLikeMessage":
                 console.log("WebcastLikeMessage",msg)
                 result=Object.assign(result,{
                     msg_content:`当前本场点赞数: ${msg.total}`
                 })
+                break
             case "WebcastFansclubMessage":
                 console.log("WebcastFansclubMessage",msg)
                 result=Object.assign(result,{
                     method:"WebcastFansclubMessage",
                     msg_content:msg.content
                 })
+                break
             default:
                 console.log('default',msg)
                 result = Object.assign(result, {
