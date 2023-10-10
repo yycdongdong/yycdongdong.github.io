@@ -156,7 +156,7 @@ const Barrage = class {
         result = Object.assign(result, this.getUser(msg.user))
         switch (msg.common.method) {
             case 'WebcastGiftMessage':
-                console.log(msg)
+                console.log("WebcastGiftMessage",msg)
                 result = Object.assign(result, {
                     // repeatCount: parseInt(),
                     msg_content: msg.common.describe,
@@ -171,12 +171,14 @@ const Barrage = class {
                 })
                 break
             case 'WebcastChatMessage':
+                console.log('WebcastChatMessage',msg)
                 result = Object.assign(result, {
                     isGift: false,
                     msg_content: msg.content
                 })
                 break
             default:
+                console.log('default',msg)
                 result = Object.assign(result, {
                     isGift: false,
                     msg_content: msg.content
