@@ -166,11 +166,11 @@ const Barrage = class {
             case 'WebcastGiftMessage':
                 console.log("WebcastGiftMessage",msg)
                 result = Object.assign(result, {
-                    msg_content: msg.gift.describe+"*"+msg.repeatCount,
+                    msg_content: msg.gift.describe+"*"+msg.repeat_count,
                     isGift: true,
                     gift_id: msg.gift.id,
                     gift_name: msg.gift.name,
-                    gift_number: parseInt(msg.repeatCount),
+                    gift_number: parseInt(msg.repeat_count),
                     gift_image: msg.gift.icon.url_list[0],
                     gift_describe: msg.gift.describe,
                 })
