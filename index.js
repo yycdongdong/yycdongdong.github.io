@@ -79,14 +79,14 @@ const Barrage = class {
                        // }
                        //#endregion
                        console.log(dom[this.propsId])
-                       if (dom[this.propsId].children.props.message) {
-                        let message = this.messageParse(dom)
-                        if (message) {
-                             this.ws.send(JSON.stringify({ method: 'message', message:message}));
-                        }
-                        else{
-                         this.ws.send(JSON.stringify({ method: 'message', message: null })); 
-                         }
+                       if (dom[this.propsId].children&&dom[this.propsId].children.props.message) {
+                            let message = this.messageParse(dom)
+                            if (message) {
+                                 this.ws.send(JSON.stringify({ method: 'message', message:message}));
+                            }
+                            else{
+                             this.ws.send(JSON.stringify({ method: 'message', message: null })); 
+                             }
                         }
                     }
                 }
