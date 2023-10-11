@@ -1,13 +1,15 @@
 
 if(window.bar){
-    reload(window.bar)
+    window.reload(window.bar)
 }
-const reload=(bar)=>{
-    window.bar.ws.close()
-    window.bar.tipObserverrom && bar.tipObserverrom.disconnect();
-    window.bar.chatObserverrom && bar.chatObserverrom.disconnect();
-    window.bar=null
-    history.go(0)
+else {
+    window.reload=(bar)=>{
+        window.bar.ws.close()
+        window.bar.tipObserverrom && bar.tipObserverrom.disconnect();
+        window.bar.chatObserverrom && bar.chatObserverrom.disconnect();
+        window.bar=null
+        history.go(0)
+    }
 }
 window.onDouyinServer = function() {
     window.bar=new Barrage()
