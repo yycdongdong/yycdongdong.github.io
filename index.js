@@ -78,6 +78,7 @@ const Barrage = class {
                        //     ... { msg_content: `${user.nickname} 来了` }
                        // }
                        //#endregion
+                       console.log(dom)
                        let message = this.messageParse(dom)
                        if (message) {
                             this.ws.send(JSON.stringify({ method: 'message', message:message}));
