@@ -1,6 +1,6 @@
 
 if(bar){
-    window.reload(wbar)
+    window.reload(bar)
 }
 else {
     window.reload=(bar)=>{
