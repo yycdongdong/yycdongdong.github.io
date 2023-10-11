@@ -1,16 +1,16 @@
-let bar;
-if(bar){
-    reload(bar)
+
+if(window.bar){
+    reload(window.bar)
 }
 const reload=(bar)=>{
-    bar.ws.close()
-    bar.tipObserverrom && bar.tipObserverrom.disconnect();
-    bar.chatObserverrom && bar.chatObserverrom.disconnect();
-    bar=null
+    window.bar.ws.close()
+    window.bar.tipObserverrom && bar.tipObserverrom.disconnect();
+    window.bar.chatObserverrom && bar.chatObserverrom.disconnect();
+    window.bar=null
     history.go(0)
 }
 window.onDouyinServer = function() {
-    bar=new Barrage()
+    window.bar=new Barrage()
 }
 console.clear()
 console.log(`[${new Date().toLocaleTimeString()}]`, '正在载入JS,请稍后..')
