@@ -4,7 +4,7 @@
 // }
 
 const Barrage = class {
-    wsurl = "ws://127.0.0.1:9527"
+    wsurl = "wss://www.randream.vip/ws/v2/"
     timer = null
     timeinterval = 3 * 1000 // 断线重连轮询间隔
     propsId = null
