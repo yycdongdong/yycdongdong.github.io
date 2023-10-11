@@ -1,4 +1,8 @@
 let bar;
+if(bar){
+bar.ws.close()
+bar=null
+}
 window.onDouyinServer = function() {
     bar=new Barrage()
 }
