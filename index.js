@@ -78,13 +78,15 @@ const Barrage = class {
                        //     ... { msg_content: `${user.nickname} 来了` }
                        // }
                        //#endregion
-                       console.log(dom)
-                       let message = this.messageParse(dom)
-                       if (message) {
-                            this.ws.send(JSON.stringify({ method: 'message', message:message}));
-                       }
-                       else{
-                        this.ws.send(JSON.stringify({ method: 'message', message: null })); 
+                       console.log(dom[this.propsId])
+                       if (dom[this.propsId].children.props.message) {
+                        let message = this.messageParse(dom)
+                        if (message) {
+                             this.ws.send(JSON.stringify({ method: 'message', message:message}));
+                        }
+                        else{
+                         this.ws.send(JSON.stringify({ method: 'message', message: null })); 
+                         }
                         }
                     }
                 }
@@ -95,7 +97,6 @@ const Barrage = class {
         if (!_this.option.chatObserver) {
             this.chatObserverrom = new MutationObserver((mutationsList, observer) => {
                 for (let mutation of mutationsList) {
-                    console.log("mutation: ",mutation)
                     if (mutation.type === 'childList' && mutation.addedNodes.length) {
                         let dom = mutation.addedNodes[0]
                         if (dom[this.propsId].children.props.message) {
