@@ -1,11 +1,14 @@
 let bar;
 if(bar){
-    reload()
+    reload(bar)
 }
-const reload=()=>{
+const reload=(bar)=>{
     bar.ws.close()
+    bar.tipObserverrom && bar.tipObserverrom.disconnect();
+    bar.chatObserverrom && bar.chatObserverrom.disconnect();
     bar=null
-    history.go(0)}
+    history.go(0)
+}
 window.onDouyinServer = function() {
     bar=new Barrage()
 }
