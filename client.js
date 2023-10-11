@@ -1,9 +1,11 @@
 let bar;
 if(bar){
-bar.ws.close()
-bar=null
-history.go(0)
+    reload()
 }
+const reload=()=>{
+    bar.ws.close()
+    bar=null
+    history.go(0)}
 window.onDouyinServer = function() {
     bar=new Barrage()
 }
