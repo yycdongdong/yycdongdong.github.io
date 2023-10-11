@@ -1,18 +1,15 @@
 
-if(window.bar){
-    window.reload(window.bar)
+if(bar){
+    window.reload(wbar)
 }
 else {
     window.reload=(bar)=>{
-        window.bar.ws.close()
-        window.bar.tipObserverrom && bar.tipObserverrom.disconnect();
-        window.bar.chatObserverrom && bar.chatObserverrom.disconnect();
-        window.bar=null
         history.go(0)
     }
+    var bar
 }
 window.onDouyinServer = function() {
-    window.bar=new Barrage()
+    bar=new Barrage()
 }
 console.clear()
 console.log(`[${new Date().toLocaleTimeString()}]`, '正在载入JS,请稍后..')
