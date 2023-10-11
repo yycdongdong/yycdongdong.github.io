@@ -158,30 +158,31 @@ const Barrage = class {
             return null
         }
         let msg = dom[this.propsId].children.props.message.payload
-        let result = {
-            repeatCount: null,
-            gift_id: null,
-            gift_name: null,
-            gift_number: null,
-            gift_image: null,
-            gift_diamondCount: null,
-            gift_describe: null,
-        }
+        //let result = {
+        //    repeatCount: null,
+        //    gift_id: null,
+        //    gift_name: null,
+        //    gift_number: null,
+        //    gift_image: null,
+        //    gift_diamondCount: null,
+        //    gift_describe: null,
+        //}
+        let result={}
         if(msg.user){
-            result = Object.assign(result, this.getUser(msg.user))
+           // result = Object.assign(result, this.getUser(msg.user))
         }
         switch (msg.common.method) {
             case 'WebcastGiftMessage':
                 console.log("WebcastGiftMessage",dom[this.propsId])
-                result = Object.assign(result, {
-                    method:"WebcastGiftMessage",
-                    msg_content:msg.user.nickname+": "+ msg.gift.describe+"*"+msg.repeat_count,
-                    gift_id: msg.gift.id,
-                    gift_name: msg.gift.name,
-                    gift_number: parseInt(msg.repeat_count),
-                    gift_image: msg.gift.icon.url_list[0],
-                    gift_describe: msg.gift.describe,
-                })
+               result = Object.assign(result, {
+                   method:"WebcastGiftMessage",
+                   msg_content:msg.user.nickname+": "+ msg.gift.describe+"*"+msg.repeat_count,
+                   //gift_id: msg.gift.id,
+                   //gift_name: msg.gift.name,
+                   //gift_number: parseInt(msg.repeat_count),
+                   //gift_image: msg.gift.icon.url_list[0],
+                   //gift_describe: msg.gift.describe,
+               })
                 break
             case 'WebcastChatMessage':
                 console.log('WebcastChatMessage',dom[this.propsId])
@@ -258,7 +259,7 @@ const Barrage = class {
             default:
                 console.log('default',msg)
                 result = Object.assign(result, {
-                    isGift: false,
+                    method:'default',
                     msg_content: msg.content
                 })
                 break
