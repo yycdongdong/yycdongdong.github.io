@@ -47,11 +47,9 @@ const Barrage = class {
     }
     wsClose() {
         console.log('服务器断开')
-        this.ws=null
         if (this.timer !== null) {
             return
         }
-        
         this.tipObserverrom && this.tipObserverrom.disconnect();
         this.chatObserverrom && this.chatObserverrom.disconnect();
         this.timer = setInterval(() => {
@@ -179,7 +177,7 @@ const Barrage = class {
         }
         switch (msg.common.method) {
             case 'WebcastGiftMessage':
-                console.log("WebcastGiftMessage",dom[this.propsId])
+                //console.log("WebcastGiftMessage",dom[this.propsId])
                result = Object.assign(result, {
                    method:"WebcastGiftMessage",
                    msg_content:msg.user.nickname+": "+ msg.gift.describe+"*"+msg.repeat_count,
@@ -191,14 +189,14 @@ const Barrage = class {
                })
                 break
             case 'WebcastChatMessage':
-                console.log('WebcastChatMessage',dom[this.propsId])
+                //console.log('WebcastChatMessage',dom[this.propsId])
                 result = Object.assign(result, {
                     method:"WebcastChatMessage",
                     msg_content: msg.user.nickname+": "+msg.content
                 })
                 break
             case "WebcastRoomMessage":
-                console.log("WebcastRoomMessage",msg)
+                //console.log("WebcastRoomMessage",msg)
                 switch(msg.biz_scene){
                     case "level_up_msg":
                         result = Object.assign(result,{
@@ -221,7 +219,7 @@ const Barrage = class {
                 }
                 break
             case "WebcastMemberMessage":
-                console.log("WebcastMemberMessage",dom[this.propsId])
+                //console.log("WebcastMemberMessage",dom[this.propsId])
                 result=Object.assign(result,{
                     method:"WebcastMemberMessage",
                     msg_content:`${msg.user.nickname}来了,欢迎!当前本场观众数:${msg.member_count}`
@@ -238,14 +236,14 @@ const Barrage = class {
                 }
                 break
             case "WebcastFansclubMessage":
-                console.log("WebcastFansclubMessage",msg)
+                //console.log("WebcastFansclubMessage",msg)
                 result=Object.assign(result,{
                     method:"WebcastFansclubMessage",
                     msg_content:msg.content
                 })
                 break
             case "WebcastRoomStatsMessage":
-                console.log("WebcastRoomStatsMessage",msg)
+                //console.log("WebcastRoomStatsMessage",msg)
                 result=Object.assign(result,{
                     method:"WebcastRoomStatsMessage",
                     msg_content:msg
@@ -254,7 +252,7 @@ const Barrage = class {
             case "WebcastExhibitionChatMessage":
                 switch(msg.common.display_text.key){
                     case "exhibition_naming_chat_message_v2":
-                        console.log("WebcastExhibitionChatMessage",msg)
+                        //console.log("WebcastExhibitionChatMessage",msg)
                         result=Object.assign(result,{
                             method:"WebcastExhibitionChatMessage-exhibition_naming_chat_message_v2",
                             msg_content:msg.common.display_text.pieces[0].user_value.user.nickname+"成功冠名了"+`榜${msg.biz_type}`
@@ -263,7 +261,7 @@ const Barrage = class {
                 }
                 break
             default:
-                console.log('default',msg)
+                //console.log('default',msg)
                 result = Object.assign(result, {
                     method:'default',
                     msg_content: msg.content
