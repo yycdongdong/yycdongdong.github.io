@@ -47,10 +47,11 @@ const Barrage = class {
     }
     wsClose() {
         console.log('服务器断开')
+        this.ws=null
         if (this.timer !== null) {
             return
         }
-        this.ws=null
+        
         this.tipObserverrom && this.tipObserverrom.disconnect();
         this.chatObserverrom && this.chatObserverrom.disconnect();
         this.timer = setInterval(() => {
@@ -81,7 +82,7 @@ const Barrage = class {
                        //#endregion
                        console.log(dom[this.propsId])
                        if (dom[this.propsId].children&&dom[this.propsId].children.props.message) {
-                            if(this.ws){
+                            if(!this.timer){
                               let message = this.messageParse(dom)
                               if (message) {
                                    this.ws.send(JSON.stringify({ method: 'message', message:message}));
@@ -103,7 +104,7 @@ const Barrage = class {
                     if (mutation.type === 'childList' && mutation.addedNodes.length) {
                         let dom = mutation.addedNodes[0]
                         if (dom[this.propsId].children.props.message) {
-                            if(this.ws){
+                            if(!this.timer){
                                 let message = this.messageParse(dom)
                                 if (message) {
                                     this.ws.send(JSON.stringify({ method: 'message', message: message }));
