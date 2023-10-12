@@ -53,7 +53,7 @@ const Barrage = class {
         this.tipObserverrom && this.tipObserverrom.disconnect();
         this.chatObserverrom && this.chatObserverrom.disconnect();
         this.timer = setInterval(() => {
-            console.log('正在等待服务器启动..')
+            console.log('正在尝试重新连接服务器...')
             this.ws = new WebSocket(wsurl);
             console.log('状态 ->', this.ws.readyState)
             setTimeout(() => {
