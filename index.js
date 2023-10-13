@@ -16,6 +16,7 @@ const Barrage = class {
     option = {}
     event = {}
     eventRegirst = {}
+    reLink=0
     constructor(option = { message: true }) {
         this.option = option
         let { link, removePlay } = option
@@ -53,11 +54,20 @@ const Barrage = class {
         this.tipObserverrom && this.tipObserverrom.disconnect();
         this.chatObserverrom && this.chatObserverrom.disconnect();
         this.timer = setInterval(() => {
+            if(this.reLink>5)
+            {
+                window.clearInterval(this.timer)
+                this.timer=null;
+                console.log("重连服务器失败,请重新连接!")
+                return;
+            }
+            this.reLink++;
             console.log('正在尝试重新连接服务器...')
-            this.ws = new WebSocket(wsurl);
-            console.log('状态 ->', this.ws.readyState)
+            this.ws = new WebSocket(this.wsurl);
             setTimeout(() => {
                 if (this.ws.readyState === 1) {
+                    window.clearInterval(this.timer)
+                    this.timer=null;
                     openWs()
                 }
             }, 2000)
@@ -78,7 +88,6 @@ const Barrage = class {
                        //     ... { msg_content: `${user.nickname} 来了` }
                        // }
                        //#endregion
-                       console.log(dom[this.propsId])
                        if (dom[this.propsId].children&&dom[this.propsId].children.props.message) {
                             if(!this.timer){
                               let message = this.messageParse(dom)
