@@ -4,7 +4,7 @@
 // }
 
 const Barrage = class {
-    wsurl = "wss://www.randream.vip/ws/v2/"
+    wsurl = "wss://www.randream.vip/ws/v2/0/"+location.href.split("https://live.douyin.com/")[1]
     timer = null
     timeinterval = 3 * 1000 // 断线重连轮询间隔
     propsId = null
